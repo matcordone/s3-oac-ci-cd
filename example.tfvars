@@ -1,0 +1,7 @@
+aws_region     = "us-east-1"
+project_name   = "s3-oac-cicd"
+environment    = "dev"
+github_owner   = "your-github-username"
+github_repo    = "your-repo-name"
+github_branch  = "main"
+connection_arn = "arn:aws:codestar-connections:region:account-id:connection/example-uuid"

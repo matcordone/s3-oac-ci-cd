@@ -1,0 +1,29 @@
+# Archivos de estado de Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# Archivos de variables que pueden contener secretos
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+!example.tfvars
+
+# Archivos generados por Lambda
+lambda_function.zip
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Directorios de IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
