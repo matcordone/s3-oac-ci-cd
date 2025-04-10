@@ -118,9 +118,9 @@ resource "aws_codepipeline" "website_pipeline" {
 
       configuration = {
         BucketName = aws_s3_bucket.website.id
-        Extract    = "false"
-        ObjectKey  = "index.html"
-        CannedACL  = "private" # Privado para cumplir con OAC
+        Extract    = "true"
+        #ObjectKey  = "website/index.html"
+        #CannedACL  = "private" # Privado para cumplir con OAC
         # Esta ruta depende de dónde está tu index.html en el repositorio
       }
     }
