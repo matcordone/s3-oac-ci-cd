@@ -1,30 +1,30 @@
-# Sitio Web Estático S3 con CloudFront y CI/CD
+# Static Website on S3 with CloudFront and CI/CD
 
-Este proyecto implementa un sitio web estático en AWS usando:
-- Amazon S3 para almacenamiento
-- CloudFront para distribución de contenido con OAC (Origin Access Control)
-- AWS CodePipeline para CI/CD automatizado
-- Lambda para invalidación de caché
+This project implements a static website on AWS using:
+- Amazon S3 for storage
+- CloudFront for content distribution with OAC (Origin Access Control)
+- AWS CodePipeline for automated CI/CD
+- Lambda for cache invalidation
 
-## Arquitectura
-GitHub -> CodePipeline -> S3 -> CloudFront -> Usuarios
-|
-v
-Lambda (Invalidación)
+## Architecture
+GitHub -> CodePipeline -> S3 -> CloudFront -> Users  
+                                    I  
+                                    V
+                         Lambda (Invalidation)
 
-## Prerrequisitos
+## Prerequisites
 
-- AWS CLI configurado
-- Terraform instalado
-- Conexión GitHub configurada en AWS
+- AWS CLI configured
+- Terraform installed
+- GitHub connection configured in AWS
 
-## Despliegue
+## Deployment
 
-1. Configura la conexión GitHub en AWS CodeConnections
-2. Actualiza `terraform.tfvars` con el ARN de la conexión
-3. Inicializa Terraform: *terraform init*
-4. Despliega la infraestructura: *terraform apply*
+1. Configure the GitHub connection in AWS CodeConnections
+2. Update `terraform.tfvars` with the ARN of the connection
+3. Initialize Terraform: *terraform init*
+4. Deploy the infrastructure: *terraform apply*
 
-## Uso
+## Usage
 
-Después del despliegue, el sitio estará disponible en la URL proporcionada en los outputs de Terraform. Cada vez que se actualice el archivo index.html en el repositorio, el pipeline se activará automáticamente, actualizará el contenido y invalidará la caché de CloudFront.
+After deployment, the website will be available at the URL provided in the Terraform outputs. Every time the `index.html` file is updated in the repository, the pipeline will automatically trigger, update the content, and invalidate the CloudFront cache.
