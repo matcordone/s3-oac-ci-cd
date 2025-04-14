@@ -1,4 +1,4 @@
-# Rol IAM para la función Lambda
+# IAM role for Lambda function
 resource "aws_iam_role" "lambda_invalidation_role" {
   name = "${var.project_name}-${var.environment}-lambda-role"
 
@@ -14,7 +14,7 @@ resource "aws_iam_role" "lambda_invalidation_role" {
   })
 }
 
-# Política para la función Lambda
+# Policy for the Lambda function
 resource "aws_iam_policy" "lambda_invalidation_policy" {
   name        = "${var.project_name}-${var.environment}-lambda-policy"
   description = "Permite a Lambda invalidar CloudFront y escribir logs"
@@ -52,13 +52,13 @@ resource "aws_iam_policy" "lambda_invalidation_policy" {
   })
 }
 
-# Adjuntar la política al rol
+# Attach the policy to the role
 resource "aws_iam_role_policy_attachment" "lambda_invalidation_attachment" {
   role       = aws_iam_role.lambda_invalidation_role.name
   policy_arn = aws_iam_policy.lambda_invalidation_policy.arn
 }
 
-# Archivo ZIP con el código de la función Lambda
+# ZIP file for the Lambda function
 data "archive_file" "lambda_zip" {
   type        = "zip"
   output_path = "${path.module}/lambda_function.zip"
@@ -161,7 +161,7 @@ EOF
   }
 }
 
-# Función Lambda
+# Lambda function for CloudFront invalidation
 resource "aws_lambda_function" "cloudfront_invalidation" {
   function_name    = "${var.project_name}-${var.environment}-cf-invalidation"
   role             = aws_iam_role.lambda_invalidation_role.arn

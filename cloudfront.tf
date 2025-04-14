@@ -1,4 +1,4 @@
-# Control de acceso de origen (OAC)
+# Origin Access Control for CloudFront to S3
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "${var.project_name}-${var.environment}-oac"
   description                       = "OAC para acceso al bucket S3"
@@ -7,13 +7,13 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-# Distribución CloudFront
+# CloudFront distribution
 resource "aws_cloudfront_distribution" "website" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
   comment             = "${var.project_name} - ${var.environment} website distribution"
-  price_class         = "PriceClass_100" # Usa solo ubicaciones en Norteamérica y Europa
+  price_class         = "PriceClass_100" # Only US, Canada, Europe
 
   origin {
     domain_name              = aws_s3_bucket.website.bucket_regional_domain_name
@@ -32,7 +32,7 @@ resource "aws_cloudfront_distribution" "website" {
     default_ttl = 3600  # 1 hora
     max_ttl     = 86400 # 1 día
 
-    # Configuraciones de caché simplificadas
+    # Cache behavior for static files
     forwarded_values {
       query_string = false
       cookies {
@@ -52,7 +52,7 @@ resource "aws_cloudfront_distribution" "website" {
   }
 }
 
-# Política para permitir a CloudFront acceder al bucket S3
+# Policy for the S3 bucket to allow CloudFront to access it
 resource "aws_s3_bucket_policy" "website" {
   bucket = aws_s3_bucket.website.id
   policy = jsonencode({

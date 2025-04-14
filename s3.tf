@@ -1,9 +1,9 @@
-# Bucket S3 para alojar el sitio web
+# Bucket for the website
 resource "aws_s3_bucket" "website" {
   bucket = "${var.project_name}-${var.environment}-website"
 }
 
-# Configuración para habilitar el hosting web estático
+# Enable static website hosting
 resource "aws_s3_bucket_website_configuration" "website" {
   bucket = aws_s3_bucket.website.id
 
@@ -16,7 +16,7 @@ resource "aws_s3_bucket_website_configuration" "website" {
   }
 }
 
-# Configuración de propiedad de objetos
+# Ownership controls for the bucket
 resource "aws_s3_bucket_ownership_controls" "website" {
   bucket = aws_s3_bucket.website.id
   
@@ -25,7 +25,7 @@ resource "aws_s3_bucket_ownership_controls" "website" {
   }
 }
 
-# Configuración de acceso público - bloqueado para OAC
+# Policy for the S3 buucket to allow CloudFront to access it and to block public access straight to the bucket
 resource "aws_s3_bucket_public_access_block" "website" {
   bucket = aws_s3_bucket.website.id
 

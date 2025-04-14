@@ -1,9 +1,9 @@
-# Bucket S3 para almacenar artefactos del pipeline
+# S3 bucket for artifacts
 resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = "${var.project_name}-${var.environment}-pipeline-artifacts"
 }
 
-# Rol IAM para CodePipeline
+# IAM role for CodePipeline
 resource "aws_iam_role" "codepipeline_role" {
   name = "${var.project_name}-${var.environment}-pipeline-role"
 
@@ -19,7 +19,7 @@ resource "aws_iam_role" "codepipeline_role" {
   })
 }
 
-# Política para CodePipeline
+# CodePipeline policy
 resource "aws_iam_policy" "codepipeline_policy" {
   name = "${var.project_name}-${var.environment}-pipeline-policy"
 
@@ -67,7 +67,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
   })
 }
 
-# Adjuntar la política al rol
+# Attach the policy to the role
 resource "aws_iam_role_policy_attachment" "codepipeline_policy_attachment" {
   role       = aws_iam_role.codepipeline_role.name
   policy_arn = aws_iam_policy.codepipeline_policy.arn
@@ -84,7 +84,7 @@ resource "aws_codepipeline" "website_pipeline" {
     type     = "S3"
   }
 
-  # Etapa Source - Obtiene el código del repositorio GitHub
+  # Source - Conexión a GitHub
   stage {
     name = "Source"
 
@@ -104,7 +104,7 @@ resource "aws_codepipeline" "website_pipeline" {
     }
   }
 
-  # Etapa Deploy - Copia el index.html al bucket S3
+  # Deploy - S3
   stage {
     name = "Deploy"
 
@@ -126,7 +126,7 @@ resource "aws_codepipeline" "website_pipeline" {
     }
   }
 
-  # Etapa de invalidación - Invoca la Lambda
+  # Invalidate - Lambda
   stage {
     name = "Invalidate"
 
